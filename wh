@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Where to download the wallpapers to
+location="$HOME/wp/script";
+echo "Location = "$location;
+
+# Error message
+error="Your response must be 'y', 'n' or 'Enter'"
+
+# Choose from 'General' 'Anime' 'People'
+read -p 'General [y/n] ';
+general=${REPLY};
+[[ ${REPLY} -eq 0 ]] && generalans="1"
+[[ ${REPLY} == y ]] && generalans="1" 
+[[ ${REPLY} == n ]] && generalans="0"
+[[ ${REPLY} != y ]] && [[ ${REPLY} ]] && [[ ${REPLY} != n ]] && echo "$error" 
+
+read -p 'Anime [y/n] ';
+anime=${REPLY};
+[[ ${REPLY} -eq 0 ]] && animeans="1"
+[[ ${REPLY} == y ]] && animeans="1" 
+[[ ${REPLY} == n ]] && animeans="0"
+[[ ${REPLY} != y ]] && [[ ${REPLY} ]] && [[ ${REPLY} != n ]] && echo "$error" 
+
+read -p 'People [y/n] ';
+people=${REPLY};
+[[ ${REPLY} -eq 0 ]] && peopleans="1"
+[[ ${REPLY} == y ]] && peopleans="1" 
+[[ ${REPLY} == n ]] && peopleans="0"
+[[ ${REPLY} != y ]] && [[ ${REPLY} ]] && [[ ${REPLY} != n ]] && echo "$error" 
+
+# Turn choices into one string
+categoryans="${generalans}${animeans}${peopleans}"
+echo "$categoryans"
+
+# Choose your Purity
+read -p 'SFW [y/n] ';
+sfw=${REPLY};
+[[ ${REPLY} -eq 0 ]] && sfwans="1"
+[[ ${REPLY} == y ]] && sfwans="1" 
+[[ ${REPLY} == n ]] && sfwans="0"
+[[ ${REPLY} != y ]] && [[ ${REPLY} ]] && [[ ${REPLY} != n ]] && echo "$error" 
+
+read -p 'Sketchy [y/n] ';
+sketchy=${REPLY};
+[[ ${REPLY} -eq 0 ]] && sketchyans="1"
+[[ ${REPLY} == y ]] && sketchyans="1" 
+[[ ${REPLY} == n ]] && sketchyans="0"
+[[ ${REPLY} != y ]] && [[ ${REPLY} ]] && [[ ${REPLY} != n ]] && echo "$error" 
+
+read -p 'NSFW [y/n] ';
+nsfw=${REPLY};
+[[ ${REPLY} -eq 0 ]] && nsfwans="1"
+[[ ${REPLY} == y ]] && nsfwans="1" 
+[[ ${REPLY} == n ]] && nsfwans="0"
+[[ ${REPLY} != y ]] && [[ ${REPLY} ]] && [[ ${REPLY} != n ]] && echo "$error" 
+
+# Turn choices into one string
+purityans="${sfwans}${sketchyans}${nsfwans}"
+echo "$purityans"
+
