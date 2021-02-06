@@ -1,61 +1,97 @@
 #!/bin/bash
 
+# Settings you should change
+######################################################
+
+# Minimum resolution
+res="2560x1440"
+
 # Where to download the wallpapers to
-location="$HOME/wp/script";
-echo "Location = "$location;
+location="$HOME/wp/script"
+
+######################################################
+# Wouldnt reccomend touching anything below this line
+
+echo "Location = "$location
 
 # Error message
-error="Your response must be 'y', 'n' or 'Enter'"
+error="Your response must be 'y', 'n' or Return"
 
-# Choose from 'General' 'Anime' 'People'
-read -p 'General [y/n] ';
-general=${REPLY};
-[[ ${REPLY} -eq 0 ]] && generalans="1"
-[[ ${REPLY} == y ]] && generalans="1" 
-[[ ${REPLY} == n ]] && generalans="0"
-[[ ${REPLY} != y ]] && [[ ${REPLY} ]] && [[ ${REPLY} != n ]] && echo "$error" 
+# Function to assign your choice of categories and purity to true or false
+prompt() {
+	local question answer
+	question="$1"
 
-read -p 'Anime [y/n] ';
-anime=${REPLY};
-[[ ${REPLY} -eq 0 ]] && animeans="1"
-[[ ${REPLY} == y ]] && animeans="1" 
-[[ ${REPLY} == n ]] && animeans="0"
-[[ ${REPLY} != y ]] && [[ ${REPLY} ]] && [[ ${REPLY} != n ]] && echo "$error" 
+	until [[ ${answer} == y ]] || [[ ${answer} == n ]]
+	do
+		read -rp "${question^} [y/n] " answer
+		answer=${answer:-y}
+		answer=${answer,,}
+	done
 
-read -p 'People [y/n] ';
-people=${REPLY};
-[[ ${REPLY} -eq 0 ]] && peopleans="1"
-[[ ${REPLY} == y ]] && peopleans="1" 
-[[ ${REPLY} == n ]] && peopleans="0"
-[[ ${REPLY} != y ]] && [[ ${REPLY} ]] && [[ ${REPLY} != n ]] && echo "$error" 
+	[[ ${answer} == y ]] && echo 1 || echo 0
+}
 
-# Turn choices into one string
-categoryans="${generalans}${animeans}${peopleans}"
-echo "$categoryans"
+# Choose your categories
+general=$(prompt "general")
+anime=$(prompt "anime")
+people=$(prompt "people")
 
-# Choose your Purity
-read -p 'SFW [y/n] ';
-sfw=${REPLY};
-[[ ${REPLY} -eq 0 ]] && sfwans="1"
-[[ ${REPLY} == y ]] && sfwans="1" 
-[[ ${REPLY} == n ]] && sfwans="0"
-[[ ${REPLY} != y ]] && [[ ${REPLY} ]] && [[ ${REPLY} != n ]] && echo "$error" 
+categories="${general}${anime}${people}"
+echo "${categories}"
 
-read -p 'Sketchy [y/n] ';
-sketchy=${REPLY};
-[[ ${REPLY} -eq 0 ]] && sketchyans="1"
-[[ ${REPLY} == y ]] && sketchyans="1" 
-[[ ${REPLY} == n ]] && sketchyans="0"
-[[ ${REPLY} != y ]] && [[ ${REPLY} ]] && [[ ${REPLY} != n ]] && echo "$error" 
+# Choose your purity
+nsfw=$(prompt "sfw")
+sketchy=$(prompt "sketchy")
+sfw=$(prompt "nsfw")
 
-read -p 'NSFW [y/n] ';
-nsfw=${REPLY};
-[[ ${REPLY} -eq 0 ]] && nsfwans="1"
-[[ ${REPLY} == y ]] && nsfwans="1" 
-[[ ${REPLY} == n ]] && nsfwans="0"
-[[ ${REPLY} != y ]] && [[ ${REPLY} ]] && [[ ${REPLY} != n ]] && echo "$error" 
+purity="${sfw}${sketchy}${nsfw}"
+echo "${purity}"
 
-# Turn choices into one string
-purityans="${sfwans}${sketchyans}${nsfwans}"
-echo "$purityans"
+curl -s https://wallhaven.cc/api/v1/search\?categories\=$categories\?purity\=$purity\?atleast\=$res\&page\=$i > tmp.txt
+  page=$(cat tmp.txt | jq '.' | grep -Eoh "https:\/\/w\.wallhaven.cc\/full\/.*(jpg|png)\b")
+  wget -nc -P $location $page
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
